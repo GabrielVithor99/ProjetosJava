@@ -1,104 +1,139 @@
-<h1>Conhecendo o Projeto Spring Data JPA na Prática </h1>
-<p> Sejam bem-vindos ao projeto de LAB <strong>Conhecendo o Projeto Spring Data JPA na Prática</strong> oferecido gratuitamente pela plataforma de cursos online <a href="https://dio.me/"><strong> Digital Innovation One</strong></a>.<br>
+Academia Digital API
+====================
 
-<h2>🎯 Objetivo do Projeto</h2>
-<p>Ao final deste projeto, o Dev irá conhecer os principais conceitos de mapeamento objeto relacional (ORM) usando o <strong>Spring Data JPA</strong>. Para isso, uma <strong>API RESTful</strong> será desenvolvida com ênfase na modelagem de suas entidades, no domínio de uma academia de ginástica.</p>
+📖 Sobre o projeto
+------------------
 
-<h2>
-🛑 Pré-requistos
-</h2>
+Este projeto é uma API REST desenvolvida em **Spring Boot** para gerenciar uma academia digital. Ele permite o cadastro e gerenciamento de **Alunos**, **Personais**, **Avaliações Físicas** e **Matrículas**.
 
-- [x] Fundamentos do Spring Boot
+🚀 Tecnologias utilizadas
+-------------------------
 
-- [x] Noções de SQL
+*   Java 17+
+    
+*   Spring Boot
+    
+*   Spring Data JPA
+    
+*   Hibernate
+    
+*   PostgreSQL
+    
+*   Lombok
+    
+*   Swagger (Springdoc OpenAPI) ➡️ Dependência adicionada para melhor visualização e documentação dos endpoints
+    
 
-<h2> 🚦 Guia </h2>
+⚙️ O que foi feito e conceitos aplicados
+----------------------------------------
 
-<ol>
-    <li> Apresentação do Projeto Base </li>
-    <li> Configuração do banco de dados (SGBD <em>PostgreSQL</em>)</li>
-    <li> Aplicando as <em>annotations</em></li>
-    <li> Execução do fluxo back-end: <em>Controller - Service - Repository</em></li>
-    <li> Validação - <em>Hibernate Validator</em> </li>
-    <li> Consultas Avançadas - <em>Derived Query - Native Query</em></li>
-</ol>
+Neste projeto, foi desenvolvida uma API REST utilizando o framework Spring Boot para gerenciar os recursos de uma academia digital, como Alunos, Personais, Avaliações Físicas e Matrículas.
 
-<h2>🛠 Tecnologias Utilizadas</h2>
+Foram aplicados diversos conceitos do Spring, entre eles:
 
-<ul>
-    <li>IDE IntelliJ</li>
-    <li>Java 11</li>
-    <li>Maven</li>
-    <li><strong>Spring Web</strong></li>
-    <li><strong>Spring Data JPA</strong></li>
-    <li><strong>PostgreSQL Driver</strong></li>
-    <li><strong>Hibernate Validator</strong></li>
-    <li>Lombok</li>
-    <li>Postman</li>
-</ul>
+*   **Injeção de Dependências:** O Spring gerencia os componentes e serviços da aplicação, promovendo baixo acoplamento e facilitando testes.
+    
+*   **Spring Data JPA:** Abstração do acesso a dados, facilitando operações CRUD com o banco PostgreSQL através de repositórios.
+    
+*   **Controle de Rotas REST:** Implementação dos endpoints REST para manipulação dos recursos, utilizando anotações como @RestController, @GetMapping, @PostMapping, @PutMapping e @DeleteMapping.
+    
+*   **Validação e Tratamento de Exceções:** Validações nos dados recebidos e tratamento adequado de erros para garantir a robustez da API.
+    
+*   **Documentação com Swagger (Springdoc OpenAPI):** Integração para gerar documentação interativa dos endpoints, facilitando o consumo da API.
+    
 
+### Interações no código
 
-<h2><a href="https://strn.com.br/artigos/2018/12/11/todas-as-anota%C3%A7%C3%B5es-do-jpa-anota%C3%A7%C3%B5es-de-mapeamento/">
-Anotações de Mapeamento </a></h2>
+*   As requisições HTTP são recebidas pelos controllers, que delegam as operações para os serviços.
+    
+*   Os serviços contêm a lógica de negócio e interagem com os repositórios para acessar o banco de dados.
+    
+*   Os repositórios utilizam Spring Data JPA para realizar operações no banco PostgreSQL.
+    
+*   A documentação Swagger permite testar e visualizar os endpoints de forma interativa.
+    
 
-<strong>@Entity</strong>
-Usada para especificar que a classe anotada atualmente representa um tipo de entidade.
+📘 Documentação da API com Swagger
+----------------------------------
 
-<strong>@Table</strong>
-Usada para especificar a tabela principal da entidade atualmente anotada.
+Com a dependência do **Springdoc OpenAPI**, a API possui documentação interativa.
 
-<strong>@Id</strong>
-Especifica o identificador da entidade. Uma entidade deve sempre ter um atributo identificado.
+*   **Swagger UI:** http://localhost:8081/[swagger-ui.html](https://swagger-ui.html)
+    
+*   **OpenAPI JSON:** http://localhost:8081/v3/api-docs
+    
 
-<strong>@GeneratedValue</strong>
-Especifica que o valor do identificador de entidade é gerado automaticamente.
+### Configuração opcional
 
-<strong>@Column</strong>
-Usada para especificar o mapeamento entre um atributo de entidade básico e a coluna da tabela de banco de dados.
+Você pode personalizar título, descrição e versão da API criando uma classe de configuração:
 
-<strong>@JoinColumn</strong>
-Usada para especificar a coluna FOREIGN KEY. Indica que a entidade é a responsável pelo relacionamento.
+```
+@Configuration
+public class SwaggerConfig {
 
-<strong>@OneToMany</strong>
-Usada para especificar um relacionamento de banco de dados um-para-muitos.
+    @Bean
+    public OpenAPI customOpenAPI() {
+    
+        return new OpenAPI()
+        .info(new Info()
+        .title("Academia Digital API")
+        .version("1.0")
+        .description("Documentação da API da Academia Digital"));
+    
+        }
+}
+```
 
-<strong>@OneToOne</strong>
-Usada para especificar um relacionamento de banco de dados um-para-um.
+📑 Endpoints principais
+-----------------------
 
-<strong>@ManyToOne</strong>
-Usada para especificar um relacionamento de banco de dados muitos-para-um.
+### Alunos
 
-<strong>cascade</strong>
-Realizar operações em cascata só faz sentido em relacionamentos Pai - Filho.
+*   POST /alunos → Criar aluno
+    
+*   GET /alunos/{id} → Buscar aluno por ID
+    
+*   GET /alunos → Listar todos os alunos
+    
+*   PUT /alunos/{id} → Atualizar aluno
+    
+*   DELETE /alunos/{id} → Deletar aluno
+    
 
-<strong>mappedBy</strong>
-Indica qual é o lado inverso ou não dominante da relação.
+### Personais
 
-<h2>🔗 Links Úteis</h2>
-<ul>
-    <li><a href="https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.6.1&packaging=jar&jvmVersion=11&groupId=me.dio.academia&artifactId=academia-digital&name=academia-digital&description=Tutorial%20API%20RESTful%20modelando%20sistema%20de%20academia%20de%20gin%C3%A1stica&packageName=me.dio.academia.digital&dependencies=web,data-jpa,postgresql,validation,lombok">Spring Initializr</a></li>
-    <li><a href="https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/common-application-properties.html">Common application properties</a></li>
-    <li><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories">Spring Data JPA - Reference Documentation</a></li>
-    <li><a href="https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-gettingstarted">Validation Reference Implementation: Reference Guide</a></li>
+*   POST /personais → Criar personal
+    
+*   GET /personais/{id} → Buscar personal por ID
+    
+*   GET /personais → Listar todos os personais
+    
+*   PUT /personais/{id} → Atualizar personal
+    
+*   DELETE /personais/{id} → Deletar personal
+    
+*   POST /personais/{personalId}/alunos/{alunoId} → Vincular aluno a personal
+    
 
-</ul>
+### Avaliações Físicas
 
+*   POST /avaliacoes → Criar avaliação física vinculada a aluno
+    
+*   GET /avaliacoes/{id} → Buscar avaliação por ID
+    
+*   GET /avaliacoes → Listar todas as avaliações
+    
 
-<h2> 🤝 Contribuindo </h2>
+### Matrículas
 
-Este repositório foi criado para fins de estudo, então contribua com ele. Se te ajudei de alguma forma, ficarei feliz em
-saber. E caso você conheça alguém que se identidique com o conteúdo, não deixe de compatilhar.
+*   POST /matriculas → Criar matrícula vinculada a aluno
+    
+*   GET /matriculas/{id} → Buscar matrícula por ID
+    
+*   GET /matriculas → Listar todas as matrículas
+    
 
-Se possível:
+✅ Conclusão
+-----------
 
-⭐️ Star o projeto
-
-🐛 Encontrar e relatar issues
-
-------------
-
-Disponibilizado com ♥ por [cami-la](https://www.linkedin.com/in/cami-la/ "cami-la").
-
-
-
-
+Com o Swagger integrado, a API agora possui uma interface gráfica para explorar e testar os endpoints de forma prática e intuitiva.
