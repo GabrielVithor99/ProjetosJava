@@ -1,4 +1,4 @@
-package me.dio.academia.digital.entity.form;
+package me.dio.academia.digital.dto;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;

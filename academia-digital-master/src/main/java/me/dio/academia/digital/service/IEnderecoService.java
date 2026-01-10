@@ -1,2 +1,4 @@
-package me.dio.academia.digital.service;public interface IEnderecoService {
+package me.dio.academia.digital.service;
+
+public interface IEnderecoService {
 }

@@ -1,2 +1,4 @@
-package me.dio.academia.digital.controller;public class EnderecoController {
+package me.dio.academia.digital.controller;
+
+public class EnderecoController {
 }
