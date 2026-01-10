@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ServiceServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
     @Autowired
@@ -38,12 +38,20 @@ public class ServiceServiceImpl implements ClienteService {
 
     @Override
     public void atualizar(Long id, Cliente cliente) {
-        if(clienteRepository.existsById(id)){
-            salvarCliente(cliente);
-        }
+        Cliente novoCliente = clienteRepository.findById(id).get();
+        novoCliente.setEndereco(gerarEndereco(cliente));
+        novoCliente.setNome(cliente.getNome());
+        clienteRepository.save(novoCliente);
     }
 
     private void salvarCliente(Cliente cliente) {
+       Endereco endereco = gerarEndereco(cliente);
+       cliente.setEndereco(endereco);
+        // Inserir Cliente, vinculando o Endereco (novo ou existente).
+        clienteRepository.save(cliente);
+    }
+
+    private  Endereco gerarEndereco(Cliente cliente){
         // Verificar se o Endereco do Cliente já existe (pelo CEP).
         String cep = cliente.getEndereco().getCep();
         Endereco endereco = enderecoRepository.findById(cep).orElseGet(() -> {
@@ -52,9 +60,7 @@ public class ServiceServiceImpl implements ClienteService {
             enderecoRepository.save(novoEndereco);
             return novoEndereco;
         });
-        cliente.setEndereco(endereco);
-        // Inserir Cliente, vinculando o Endereco (novo ou existente).
-        clienteRepository.save(cliente);
+        return endereco;
     }
     @Override
     public void deletar(Long id) {

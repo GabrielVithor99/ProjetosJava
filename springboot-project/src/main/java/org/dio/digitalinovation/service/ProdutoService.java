@@ -1,11 +1,11 @@
 package org.dio.digitalinovation.service;
 
-import org.dio.digitalinovation.model.Cliente;
+import org.dio.digitalinovation.model.Produto;
 
-public interface ClienteService {
-    Iterable<Cliente> buscarTodos();
-    Cliente buscarPorId(Long id);
-    void inserir(Cliente cliente);
-    void atualizar(Long id, Cliente cliente);
+public interface ProdutoService {
+    Iterable<Produto> buscarTodos();
+    Produto buscarPorId(Long id);
+    void inserir(Produto produto);
+    void atualizar(Long id, Produto produto);
     void deletar(Long id);
 }
